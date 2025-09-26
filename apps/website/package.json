@@ -1,0 +1,44 @@
+{
+  "name": "money-lens-website",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@emotion/cache": "^11.14.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^7.3.2",
+    "@mui/material": "^7.3.2",
+    "@mui/material-nextjs": "^7.3.2",
+    "@reduxjs/toolkit": "^2.9.0",
+    "@tanstack/react-form": "^1.21.3",
+    "material-react-table": "^3.2.1",
+    "next": "15.5.3",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-dropzone": "^14.3.8",
+    "react-redux": "^9.2.0",
+    "recharts": "^3.2.1",
+    "redux-logger": "^3.0.6",
+    "uuid": "^13.0.0"
+  },
+  "devDependencies": {
+    "@money-lens/eslint-config": "*",
+    "@money-lens/typescript-config": "*",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/redux-logger": "^3.0.13",
+    "@types/uuid": "^10.0.0",
+    "eslint": "^9",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}

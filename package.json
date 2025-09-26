@@ -1,5 +1,5 @@
 {
-  "name": "money-len-v2",
+  "name": "money-lens",
   "private": true,
   "scripts": {
     "build": "turbo run build",
@@ -18,7 +18,9 @@
   },
   "packageManager": "npm@10.9.2",
   "workspaces": [
-    "apps/*",
-    "packages/*"
+    "apps/website",
+    "apps/app",
+    "packages/eslint-config",
+    "packages/typescript-config"
   ]
 }

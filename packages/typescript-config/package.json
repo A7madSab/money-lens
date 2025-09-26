@@ -1,9 +1,15 @@
 {
-  "name": "@repo/typescript-config",
+  "name": "@money-lens/typescript-config",
   "version": "0.0.0",
   "private": true,
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "exports": {
+    "./base": "./base.json",
+    "./nextjs": "./nextjs.json",
+    "./react-library": "./react-library.json",
+    "./react-native": "./react-native.json"
   }
 }
