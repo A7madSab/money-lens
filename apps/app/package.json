@@ -10,7 +10,7 @@
     "ios": "expo run:ios",
     "web": "expo start --web",
     "lint": "expo lint",
-    "check-types": "tsc --noEmit"
+    "check-types": "tsc"
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",

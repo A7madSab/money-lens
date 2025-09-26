@@ -25,7 +25,7 @@ export const createPersistenceMiddleware = (): Middleware => {
     const actionType = action?.type;
 
     if (typeof actionType === "string") {
-      const sliceName = actionType.split("/")[0];
+      const sliceName = actionType.split("/")[0] || "";
 
       if (storageManagers.has(sliceName)) {
         const state = store.getState();

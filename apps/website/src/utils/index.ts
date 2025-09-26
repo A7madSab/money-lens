@@ -13,7 +13,7 @@ export const parseAndFormatDate = (rawDate: string): string => {
     // Check if the date is valid
     if (!isNaN(parsedDate.getTime())) {
       // Format as YYYY-MM-DD for consistent filtering
-      return parsedDate.toISOString().split("T")[0];
+      return parsedDate.toISOString().split("T")[0]!;
     }
   } catch (error) {
     // If parsing fails, keep the original string
@@ -47,7 +47,7 @@ export const parseAmountWithCurrency = (
 
     // Extract currency
     const currencyMatch = trimmedAmount.match(currencyPattern);
-    const currency = currencyMatch ? currencyMatch[1].toUpperCase() : "";
+    const currency = currencyMatch ? currencyMatch[1]?.toUpperCase() : "";
 
     // Remove currency and extract numeric value
     // This handles cases like "-433.2 EGP", "USD 100.50", "$-25.75", etc.
@@ -82,7 +82,7 @@ export const parseCSV = async (file: File): Promise<ITransaction[]> => {
 
   // Skip header row and process data
   for (let i = 1; i < lines.length; i++) {
-    const line = lines[i].trim();
+    const line = lines[i]?.trim();
     if (!line) continue;
 
     // Split by comma, handling quoted values
@@ -90,7 +90,7 @@ export const parseCSV = async (file: File): Promise<ITransaction[]> => {
       .split(",")
       .map((val) => val.trim().replace(/^"|"$/g, ""));
 
-    if (values[2].toLowerCase().includes("amount")) continue;
+    if (values[2]?.toLowerCase().includes("amount")) continue;
 
     const parsedAmount = parseAmountWithCurrency(values[2] || "");
 
@@ -188,7 +188,7 @@ export const WARM_COLORS = [
 ];
 
 export const getRandomWarmColor = (): string => {
-  return WARM_COLORS[Math.floor(Math.random() * WARM_COLORS.length)];
+  return WARM_COLORS[Math.floor(Math.random() * WARM_COLORS.length)]!;
 };
 
 export const generateUUID = (): string => {
@@ -285,7 +285,8 @@ export const calculateTransactionMetrics = (transactions: ITransaction[]) => {
   let smallestExpense = 0;
 
   // Get currency from first transaction or default to EGP
-  const currency = transactions.length > 0 ? transactions[0].currency || "EGP" : "EGP";
+  const currency =
+    transactions.length > 0 ? transactions[0]?.currency || "EGP" : "EGP";
 
   // Group transactions by date for per-day calculations
   const transactionsByDate = new Map<string, number>();
@@ -322,9 +323,11 @@ export const calculateTransactionMetrics = (transactions: ITransaction[]) => {
 
   // Calculate transactions per day statistics
   const transactionsPerDayArray = Array.from(transactionsByDate.values());
-  const avgTransactionsPerDay = transactionsPerDayArray.length > 0
-    ? transactionsPerDayArray.reduce((sum, count) => sum + count, 0) / transactionsPerDayArray.length
-    : 0;
+  const avgTransactionsPerDay =
+    transactionsPerDayArray.length > 0
+      ? transactionsPerDayArray.reduce((sum, count) => sum + count, 0) /
+        transactionsPerDayArray.length
+      : 0;
 
   const uniqueDays = transactionsByDate.size;
 

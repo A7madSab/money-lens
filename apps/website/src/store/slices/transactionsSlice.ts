@@ -13,7 +13,7 @@ export interface ITransaction {
   fileName: string;
   groupIds: string[];
 }
-interface ITransactionState {
+export interface ITransactionState {
   transactions: ITransaction[];
   loading: boolean;
   error: string | null;
@@ -95,9 +95,9 @@ export const transactionSlice = createSlice({
     },
     removeGroupFromAllTransactions: (state, action: PayloadAction<string>) => {
       // Remove the specified groupId from all transactions
-      state.transactions.forEach(transaction => {
+      state.transactions.forEach((transaction) => {
         transaction.groupIds = transaction.groupIds.filter(
-          groupId => groupId !== action.payload
+          (groupId) => groupId !== action.payload
         );
       });
     },

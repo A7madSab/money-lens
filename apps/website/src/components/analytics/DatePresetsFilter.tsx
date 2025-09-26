@@ -19,7 +19,8 @@ const DatePresetsFilter: React.FC<IProps> = ({
 }) => {
   const getDatePresets = (): DatePreset[] => {
     const today = new Date();
-    const formatDate = (date: Date) => date.toISOString().split("T")[0];
+    const formatDate = (date: Date): string =>
+      date.toISOString().split("T")[0] || "";
 
     return [
       {
