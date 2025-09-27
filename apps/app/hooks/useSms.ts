@@ -13,6 +13,7 @@ export function useSms({ delay = 5000, filter = {} }: IProps = {}) {
   const [error, setError] = useState<Error | null>(null);
 
   const lastMessageIdRef = useRef<number | null>(null);
+  const lastKnownMessageIdRef = useRef<number | null>(null);
   const isInitialLoadRef = useRef<boolean>(true);
   const delayRef = useRef(delay);
   const filterRef = useRef(filter);
@@ -42,8 +43,16 @@ export function useSms({ delay = 5000, filter = {} }: IProps = {}) {
         if (!inbox || inbox.length === 0) {
           setMessages([]);
           setLatest(null);
+          lastKnownMessageIdRef.current = null;
         } else {
-          setMessages(inbox);
+          // Check if we have new messages by comparing the last message ID
+          const lastInboxMessageId = inbox[inbox.length - 1]._id;
+          const hasNewMessages = lastKnownMessageIdRef.current !== lastInboxMessageId;
+
+          if (hasNewMessages) {
+            setMessages(inbox);
+            lastKnownMessageIdRef.current = lastInboxMessageId;
+          }
 
           const newest = inbox[0];
           if (
