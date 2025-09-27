@@ -1,15 +1,25 @@
 {
   "expo": {
-    "name": "sms",
-    "slug": "sms",
+    "name": "Money Lens",
+    "slug": "money-lens",
     "version": "1.0.0",
+    "description": "Automatic expense tracking through SMS message analysis from banks and payment providers",
+    "keywords": ["expense", "tracking", "sms", "finance", "budget", "banking"],
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "sms",
+    "scheme": "moneylens",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "privacy": "public",
+    "platforms": ["ios", "android"],
+    "primaryColor": "#3b82f6",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.moneylens.app",
+      "infoPlist": {
+        "NSContactsUsageDescription": "This app does not access contacts",
+        "NSCameraUsageDescription": "This app does not access camera"
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -17,7 +27,17 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.a7madsab.sms"
+      "package": "com.moneylens.app",
+      "permissions": ["READ_SMS", "RECEIVE_SMS"],
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "category": ["DEFAULT", "BROWSABLE"],
+          "data": {
+            "scheme": "moneylens"
+          }
+        }
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -34,10 +54,24 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
+      ],
+      [
+        "react-native-permissions",
+        {
+          "permissions": [
+            "android.permission.READ_SMS",
+            "android.permission.RECEIVE_SMS"
+          ]
+        }
       ]
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "money-lens-app"
+      }
     }
   }
 }

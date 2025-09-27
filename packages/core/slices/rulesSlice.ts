@@ -1,9 +1,9 @@
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { SLICE_KEYS } from "../storage/config";
-import { generateUUID } from "@/utils";
 import { reapplyAllRules } from "./transactionsSlice";
 import { IAppStore } from "..";
+import { SLICE_KEYS } from "../keys";
+import { generateUUID } from "@money-lens/utils";
 
 export interface IRule {
   id: string;

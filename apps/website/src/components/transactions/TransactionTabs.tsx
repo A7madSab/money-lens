@@ -6,7 +6,7 @@ import {
   MRT_ColumnDef,
   useMaterialReactTable,
 } from "material-react-table";
-import { ITransaction } from "@/store/slices/transactionsSlice";
+import { ITransaction } from "../../store";
 import RulesTab from "../rules/RulesTab";
 import { GroupsTab } from "../groups/GroupsTabs";
 import { GroupsFilter } from "./TransactionGroupFilter";

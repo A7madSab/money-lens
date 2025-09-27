@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { Card, Typography, Box, Chip, TextField } from "@mui/material";
 import { Close, Search } from "@mui/icons-material";
-import { useAppDispatch, useAppSelector } from "@/store";
-import { deleteGroupWithCleanup } from "@/store/slices/groupsSlice";
+import {
+  useAppDispatch,
+  useAppSelector,
+  deleteGroupWithCleanup,
+} from "../../store";
 import { GroupsForm } from "./GroupForm";
 
 export const GroupsTab = () => {

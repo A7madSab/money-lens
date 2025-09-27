@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { SLICE_KEYS } from "../storage/config";
-import { applyRules } from "@/utils";
 import type { IRule } from "./rulesSlice";
+import { SLICE_KEYS } from "../keys";
+import { applyRules } from "@money-lens/utils";
 
 export interface ITransaction {
   id: string;

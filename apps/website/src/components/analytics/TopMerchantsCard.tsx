@@ -1,7 +1,15 @@
 import React from "react";
-import { Card, Typography, Box, List, ListItem, ListItemText, Chip } from "@mui/material";
+import {
+  Card,
+  Typography,
+  Box,
+  List,
+  ListItem,
+  ListItemText,
+  Chip,
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { ITransaction } from "@/store/slices/transactionsSlice";
+import { ITransaction } from "../../store";
 
 interface TopMerchantsCardProps {
   transactions: ITransaction[];
@@ -21,7 +29,10 @@ const TopMerchantsCard: React.FC<TopMerchantsCardProps> = ({
   formatCurrency,
 }) => {
   const topMerchants = React.useMemo(() => {
-    const merchantMap = new Map<string, { count: number; totalAmount: number }>();
+    const merchantMap = new Map<
+      string,
+      { count: number; totalAmount: number }
+    >();
 
     transactions.forEach((transaction) => {
       const description = transaction.description.trim();
@@ -29,7 +40,10 @@ const TopMerchantsCard: React.FC<TopMerchantsCardProps> = ({
 
       const absAmount = Math.abs(transaction.amountNumeric || 0);
 
-      const current = merchantMap.get(description) || { count: 0, totalAmount: 0 };
+      const current = merchantMap.get(description) || {
+        count: 0,
+        totalAmount: 0,
+      };
       current.count += 1;
       current.totalAmount += absAmount;
 
@@ -71,7 +85,14 @@ const TopMerchantsCard: React.FC<TopMerchantsCardProps> = ({
               <StyledListItem key={merchant.description}>
                 <ListItemText
                   primary={
-                    <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 0.5 }}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 1,
+                        mb: 0.5,
+                      }}
+                    >
                       <Chip
                         label={index + 1}
                         size="small"
@@ -98,9 +119,16 @@ const TopMerchantsCard: React.FC<TopMerchantsCardProps> = ({
                     </Box>
                   }
                   secondary={
-                    <Box sx={{ display: "flex", justifyContent: "space-between", mt: 0.5 }}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        mt: 0.5,
+                      }}
+                    >
                       <Typography variant="body2" color="text.secondary">
-                        {merchant.count} transaction{merchant.count !== 1 ? "s" : ""}
+                        {merchant.count} transaction
+                        {merchant.count !== 1 ? "s" : ""}
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
                         Avg: {formatCurrency(merchant.avgAmount)}

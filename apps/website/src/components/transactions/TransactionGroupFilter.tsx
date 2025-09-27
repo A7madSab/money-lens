@@ -1,5 +1,5 @@
 import { useAppSelector } from "@/store";
-import { ITransaction } from "@/store/slices/transactionsSlice";
+import { ITransaction } from "../../store";
 import {
   Checkbox,
   FormControl,

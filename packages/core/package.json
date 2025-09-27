@@ -1,0 +1,8 @@
+{
+  "name": "@money-lens/core",
+  "version": "0.0.1",
+  "main": "index.ts",
+  "dependencies": {
+    "uuid": "^13.0.0"
+  }
+}

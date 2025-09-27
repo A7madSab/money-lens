@@ -19,12 +19,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorIcon from "@mui/icons-material/Error";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
-import { useAppDispatch, useAppSelector } from "@/store";
 import { useDropzone } from "react-dropzone";
 import {
+  useAppDispatch,
+  useAppSelector,
   processFiles,
   removeFileAndTransactions,
-} from "@/store/slices/fileSlice";
+} from "../store";
 
 export const UploadFilesTabs = () => {
   const dispatch = useAppDispatch();
@@ -201,8 +202,8 @@ export const UploadFilesTabs = () => {
                                 file.status === "completed"
                                   ? "success"
                                   : file.status === "error"
-                                  ? "error"
-                                  : "primary"
+                                    ? "error"
+                                    : "primary"
                               }
                               variant="outlined"
                             />

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box, TextField, Button, Typography, Card } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import { useAppDispatch } from "@/store";
-import { addGroup } from "@/store/slices/groupsSlice";
+import { addGroup } from "../../store";
 import { useForm } from "@tanstack/react-form";
 
 export const GroupsForm = () => {

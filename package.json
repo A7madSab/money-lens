@@ -20,7 +20,6 @@
   "workspaces": [
     "apps/website",
     "apps/app",
-    "packages/eslint-config",
-    "packages/typescript-config"
+    "packages/*"
   ]
 }

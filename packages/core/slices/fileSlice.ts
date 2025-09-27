@@ -1,7 +1,5 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 
-import { SLICE_KEYS } from "../storage/config";
-import { parseCSVWithRules } from "@/utils";
 import {
   ITransaction,
   addTransactions,
@@ -9,6 +7,8 @@ import {
 } from "./transactionsSlice";
 import { getActiveRules } from "./rulesSlice";
 import { IAppStore } from "..";
+import { SLICE_KEYS } from "../keys";
+import { parseCSVWithRules } from "@money-lens/utils";
 
 export interface IFileUploadProgress {
   name: string;

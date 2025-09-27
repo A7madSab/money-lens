@@ -10,7 +10,7 @@ import {
   ResponsiveContainer,
   Cell,
 } from "recharts";
-import { ITransaction } from "@/store/slices/transactionsSlice";
+import { ITransaction } from "../../store";
 
 interface TransactionFrequencyChartProps {
   transactions: ITransaction[];
@@ -26,7 +26,7 @@ const TransactionFrequencyChart: React.FC<TransactionFrequencyChartProps> = ({
 
     transactions.forEach((transaction) => {
       const date = new Date(transaction.date);
-      const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+      const dayName = date.toLocaleDateString("en-US", { weekday: "long" });
 
       const absAmount = Math.abs(transaction.amountNumeric || 0);
 
@@ -37,17 +37,35 @@ const TransactionFrequencyChart: React.FC<TransactionFrequencyChartProps> = ({
       dayMap.set(dayName, current);
     });
 
-    const daysOrder = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    const daysOrder = [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday",
+    ];
 
-    return daysOrder.map(day => ({
+    return daysOrder.map((day) => ({
       day: day.substring(0, 3), // Abbreviated day name
       count: dayMap.get(day)?.count || 0,
       totalAmount: dayMap.get(day)?.totalAmount || 0,
-      avgAmount: dayMap.get(day) ? dayMap.get(day)!.totalAmount / dayMap.get(day)!.count : 0,
+      avgAmount: dayMap.get(day)
+        ? dayMap.get(day)!.totalAmount / dayMap.get(day)!.count
+        : 0,
     }));
   }, [transactions]);
 
-  const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#F8BBD9'];
+  const colors = [
+    "#FF6B6B",
+    "#4ECDC4",
+    "#45B7D1",
+    "#96CEB4",
+    "#FFEAA7",
+    "#DDA0DD",
+    "#F8BBD9",
+  ];
 
   return (
     <Card
@@ -65,22 +83,15 @@ const TransactionFrequencyChart: React.FC<TransactionFrequencyChartProps> = ({
         Number of transactions per day of the week
       </Typography>
 
-      {frequencyData.some(d => d.count > 0) ? (
+      {frequencyData.some((d) => d.count > 0) ? (
         <ResponsiveContainer width="100%" height={280}>
           <BarChart
             data={frequencyData}
             margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
           >
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-            <XAxis
-              dataKey="day"
-              fontSize={12}
-              fontWeight={500}
-            />
-            <YAxis
-              fontSize={12}
-              fontWeight={500}
-            />
+            <XAxis dataKey="day" fontSize={12} fontWeight={500} />
+            <YAxis fontSize={12} fontWeight={500} />
             <Tooltip
               formatter={(value, name) => {
                 if (name === "count") return [value, "Transactions"];
@@ -102,7 +113,10 @@ const TransactionFrequencyChart: React.FC<TransactionFrequencyChartProps> = ({
               strokeWidth={1}
             >
               {frequencyData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+                <Cell
+                  key={`cell-${index}`}
+                  fill={colors[index % colors.length]}
+                />
               ))}
             </Bar>
           </BarChart>

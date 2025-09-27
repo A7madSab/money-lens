@@ -1,0 +1,3 @@
+{
+  "extends": "@money-lens/typescript-config/base"
+}

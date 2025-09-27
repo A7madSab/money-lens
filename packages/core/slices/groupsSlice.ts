@@ -1,13 +1,13 @@
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { SLICE_KEYS } from "../storage/config";
-import { generateUUID, getRandomWarmColor } from "@/utils";
+import { generateUUID, getRandomWarmColor } from "@money-lens/utils";
 import { IAppStore } from "..";
 import {
   removeGroupFromAllTransactions,
   reapplyAllRules,
 } from "./transactionsSlice";
 import { deleteRulesByGroupId, getActiveRules } from "./rulesSlice";
+import { SLICE_KEYS } from "../keys";
 
 export interface IGroup {
   id: string;

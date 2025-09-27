@@ -1,6 +1,17 @@
 import { useAppDispatch, useAppSelector } from "@/store";
-import { addGroupToTransaction, ITransaction, removeGroupFromTransaction } from "@/store/slices/transactionsSlice";
-import { Chip, IconButton, ListItemIcon, ListItemText, Menu, MenuItem } from "@mui/material";
+import {
+  addGroupToTransaction,
+  ITransaction,
+  removeGroupFromTransaction,
+} from "../../store";
+import {
+  Chip,
+  IconButton,
+  ListItemIcon,
+  ListItemText,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 import { useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 

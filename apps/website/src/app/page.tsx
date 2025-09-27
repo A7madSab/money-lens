@@ -4,7 +4,7 @@ import { Container, Tab, Tabs, Typography } from "@mui/material";
 import { UploadFilesTabs } from "@/components/UploadFilesTabs";
 import { TransactionTabs } from "@/components/transactions/TransactionTabs";
 import { AnalyticsTab } from "@/components/analytics/AnalyticsTab";
-import { useAppSelector } from "@/store";
+import { useAppSelector } from "../store";
 
 export default function CsvTransactionManager() {
   const [tab, setTab] = useState(0);

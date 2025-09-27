@@ -3,11 +3,7 @@ import { Card, Typography, Box, Chip, IconButton, Switch } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
 import { RulesForm } from "./RulesForm";
 import { useAppDispatch, useAppSelector } from "@/store";
-import {
-  deleteRule,
-  toggleRuleActiveWithReapply,
-  IRule,
-} from "@/store/slices/rulesSlice";
+import { deleteRule, toggleRuleActiveWithReapply, IRule } from "../../store";
 
 const RulesTab = () => {
   const dispatch = useAppDispatch();
@@ -55,10 +51,7 @@ const RulesTab = () => {
         description content
       </Typography>
 
-      <RulesForm
-        editingRule={editingRule}
-        onCancelEdit={handleCancelEdit}
-      />
+      <RulesForm editingRule={editingRule} onCancelEdit={handleCancelEdit} />
 
       <Box>
         <Typography variant="h6" sx={{ mb: 1 }}>

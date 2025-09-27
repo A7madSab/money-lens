@@ -12,11 +12,7 @@ import {
 import { Add } from "@mui/icons-material";
 import { useForm } from "@tanstack/react-form";
 import { useAppDispatch, useAppSelector } from "@/store";
-import {
-  addRuleWithReapply,
-  updateRuleWithReapply,
-  IRule,
-} from "@/store/slices/rulesSlice";
+import { addRuleWithReapply, updateRuleWithReapply, IRule } from "../../store";
 
 interface RulesFormProps {
   editingRule?: IRule | null;
@@ -216,8 +212,8 @@ export const RulesForm = ({ editingRule, onCancelEdit }: RulesFormProps) => {
                     ? "Updating..."
                     : "Creating..."
                   : isEditing
-                  ? "Update Rule"
-                  : "Create Rule"}
+                    ? "Update Rule"
+                    : "Create Rule"}
               </Button>
             )}
           </form.Subscribe>
