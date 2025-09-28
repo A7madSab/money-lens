@@ -3,6 +3,7 @@ import groupSlice from "./slices/groupsSlice";
 import filesSlice from "./slices/fileSlice";
 import transactionSlice from "./slices/transactionsSlice";
 import rulesSlice from "./slices/rulesSlice";
+import banksSlice from "./slices/banksSlice";
 import { SLICE_KEYS } from "./keys";
 
 export const rootReducer = combineReducers({
@@ -10,6 +11,7 @@ export const rootReducer = combineReducers({
   [SLICE_KEYS.GROUPS]: groupSlice,
   [SLICE_KEYS.TRANSACTIONS]: transactionSlice,
   [SLICE_KEYS.RULES]: rulesSlice,
+  [SLICE_KEYS.BANKS]: banksSlice,
 });
 
 // these are just to get the types for redux

@@ -15,6 +15,7 @@ export interface IRule {
 }
 
 export interface CreateRulePayload {
+  id?: string;
   name: string;
   contains: string;
   groupId: string;
@@ -107,6 +108,7 @@ const initialState: { rules: IRule[] } = {
       createdAt: new Date().toISOString(),
     },
   ],
+  // rules:[]
 };
 
 export const rulesSlice = createSlice({
@@ -116,7 +118,7 @@ export const rulesSlice = createSlice({
     addRule: (state, action: PayloadAction<CreateRulePayload>) => {
       const newRule: IRule = {
         ...action.payload,
-        id: generateUUID(),
+        id: action.payload.id || generateUUID(),
         isActive: true,
         createdAt: new Date().toISOString(),
       };

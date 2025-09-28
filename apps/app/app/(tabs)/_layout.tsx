@@ -1,7 +1,10 @@
-import Feather from "@expo/vector-icons/Feather";
-import { Tabs } from "expo-router";
 import React from "react";
+import { Tabs } from "expo-router";
 import { Platform } from "react-native";
+
+import Feather from "@expo/vector-icons/Feather";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import Octicons from "@expo/vector-icons/Octicons";
 
 import { HapticTab } from "@/components/HapticTab";
 import TabBarBackground from "@/components/ui/TabBarBackground";
@@ -29,7 +32,17 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Transcations",
+          title: "Transactions",
+          tabBarIcon: ({ color }) => (
+            <MaterialIcons name="sync-alt" size={24} color={color} />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="cards"
+        options={{
+          title: "Cards",
           tabBarIcon: ({ color }) => (
             <Feather name="credit-card" size={24} color={color} />
           ),
@@ -51,7 +64,7 @@ export default function TabLayout() {
         options={{
           title: "Rules",
           tabBarIcon: ({ color }) => (
-            <Feather name="settings" size={24} color={color} />
+            <Octicons name="workflow" size={24} color={color} />
           ),
         }}
       />

@@ -1,209 +1,288 @@
+import React, { useState, useMemo } from "react";
 import RuleCard from "@/components/ui/RuleCard";
-import React, { useState } from "react";
+import { CreateRuleModal, EditRuleModal } from "@/components/rules";
 import {
-    FlatList,
-    Modal,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  FlatList,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  SafeAreaView,
+  StatusBar,
 } from "react-native";
+import Feather from "@expo/vector-icons/Feather";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import {
+  useAppDispatch,
+  useAppSelector,
+  deleteRule,
+  toggleRuleActiveWithReapply,
+  IRule,
+} from "@/store";
+import EmptyRules from "@/components/rules/EmptyRules";
 
-interface Rule {
-  id: string;
-  name: string;
-  contains: string;
-  group: string;
-  active: boolean;
-}
+const AutomationRulesScreen = () => {
+  const dispatch = useAppDispatch();
+  const { rules, activeRules, inactiveRules, groups } = useAppSelector(
+    (state) => ({
+      rules: state.rules.rules,
+      activeRules: state.rules.rules.filter((rule) => rule.isActive),
+      inactiveRules: state.rules.rules.filter((rule) => !rule.isActive),
+      groups: state.groups.groups,
+    })
+  );
 
-export default function AutomationRulesScreen() {
-  const [rules, setRules] = useState<Rule[]>([
-    {
-      id: "1",
-      name: "Food Rule",
-      contains: "SWIGGY",
-      group: "Food",
-      active: true,
-    },
-    {
-      id: "2",
-      name: "Shopping Rule",
-      contains: "AMAZON",
-      group: "Shopping",
-      active: true,
-    },
-  ]);
+  const [createModalVisible, setCreateModalVisible] = useState(false);
+  const [editModalVisible, setEditModalVisible] = useState(false);
+  const [editingRule, setEditingRule] = useState<IRule | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterActive, setFilterActive] = useState<boolean | null>(null);
 
-  const [modalVisible, setModalVisible] = useState(false);
-  const [ruleName, setRuleName] = useState("");
-  const [contains, setContains] = useState("");
-  const [group, setGroup] = useState("Food");
+  // Filtered and searched rules
+  const filteredRules = useMemo(() => {
+    return rules.filter((rule) => {
+      const matchesSearch =
+        rule.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        rule.contains.toLowerCase().includes(searchQuery.toLowerCase());
 
-  const addRule = () => {
-    if (!ruleName.trim() || !contains.trim()) return;
-    setRules((prev) => [
-      ...prev,
-      {
-        id: Date.now().toString(),
-        name: ruleName,
-        contains,
-        group,
-        active: true,
-      },
-    ]);
-    setRuleName("");
-    setContains("");
-    setGroup("Food");
-    setModalVisible(false);
+      const matchesFilter =
+        filterActive === null || rule.isActive === filterActive;
+
+      return matchesSearch && matchesFilter;
+    });
+  }, [rules, searchQuery, filterActive]);
+
+  const handleEditRule = (rule: IRule) => {
+    setEditingRule(rule);
+    setEditModalVisible(true);
   };
 
-  const deleteRule = (id: string) => {
-    setRules((prev) => prev.filter((r) => r.id !== id));
+  const handleCloseCreateModal = () => {
+    setCreateModalVisible(false);
   };
 
-  const toggleRule = (id: string) => {
-    setRules((prev) =>
-      prev.map((r) => (r.id === id ? { ...r, active: !r.active } : r))
-    );
+  const handleCloseEditModal = () => {
+    setEditModalVisible(false);
+    setEditingRule(null);
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Automation Rules</Text>
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="dark-content" backgroundColor="#fff" />
 
-      {/* Add Rule Button */}
-      <TouchableOpacity
-        style={styles.addButton}
-        onPress={() => setModalVisible(true)}
-      >
-        <Text style={styles.addButtonText}>+ Add Rule</Text>
-      </TouchableOpacity>
-
-      {/* Rules List */}
-      <FlatList
-        data={rules}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <RuleCard
-            name={item.name}
-            contains={item.contains}
-            group={item.group}
-            active={item.active}
-            onToggle={() => toggleRule(item.id)}
-            onDelete={() => deleteRule(item.id)}
-            onEdit={() => {
-              setRuleName(item.name);
-              setContains(item.contains);
-              setGroup(item.group);
-              setModalVisible(true);
-            }}
-          />
-        )}
-      />
-
-      {/* Modal for Creating Rule */}
-      <Modal visible={modalVisible} animationType="slide" transparent>
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Create Rule</Text>
-
-            <TextInput
-              placeholder="Rule Name"
-              style={styles.input}
-              value={ruleName}
-              onChangeText={setRuleName}
+      {/* App Bar */}
+      <View style={styles.appBar}>
+        {/* Search and Filter Bar */}
+        <View style={styles.searchBar}>
+          <View style={styles.searchContainer}>
+            <Feather
+              name="search"
+              size={20}
+              color="#666"
+              style={styles.searchIcon}
             />
             <TextInput
-              placeholder="Description Contains"
-              style={styles.input}
-              value={contains}
-              onChangeText={setContains}
+              style={styles.searchInput}
+              placeholder="Search rules..."
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+              placeholderTextColor="#999"
             />
-            {/* <Picker
-              selectedValue={group}
-              style={styles.input}
-              onValueChange={(val) => setGroup(val)}
+            {searchQuery.length > 0 && (
+              <TouchableOpacity onPress={() => setSearchQuery("")}>
+                <Ionicons name="close-circle" size={20} color="#999" />
+              </TouchableOpacity>
+            )}
+          </View>
+
+          {/* Filter Buttons */}
+          <View style={styles.filterContainer}>
+            <TouchableOpacity
+              style={[
+                styles.filterChip,
+                filterActive === null && styles.filterChipActive,
+              ]}
+              onPress={() => setFilterActive(null)}
             >
-              <Picker.Item label="Food" value="Food" />
-              <Picker.Item label="Fuel" value="Fuel" />
-              <Picker.Item label="Shopping" value="Shopping" />
-            </Picker> */}
-
-            <View style={styles.modalActions}>
-              <TouchableOpacity onPress={() => setModalVisible(false)}>
-                <Text style={styles.cancel}>Cancel</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={addRule}>
-                <Text style={styles.create}>Save</Text>
-              </TouchableOpacity>
-            </View>
+              <Text
+                style={[
+                  styles.filterText,
+                  filterActive === null && styles.filterTextActive,
+                ]}
+              >
+                All ({rules.length})
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.filterChip,
+                filterActive === true && styles.filterChipActive,
+              ]}
+              onPress={() => setFilterActive(true)}
+            >
+              <Text
+                style={[
+                  styles.filterText,
+                  filterActive === true && styles.filterTextActive,
+                ]}
+              >
+                Active ({activeRules.length})
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.filterChip,
+                filterActive === false && styles.filterChipActive,
+              ]}
+              onPress={() => setFilterActive(false)}
+            >
+              <Text
+                style={[
+                  styles.filterText,
+                  filterActive === false && styles.filterTextActive,
+                ]}
+              >
+                Inactive ({inactiveRules.length})
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
-      </Modal>
-    </View>
+      </View>
+
+      {/* Rules List */}
+      <View style={styles.content}>
+        {filteredRules.length === 0 ? (
+          <EmptyRules rules={rules} />
+        ) : (
+          <FlatList
+            data={filteredRules}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => {
+              const group = groups.find((g) => g.id === item.groupId) || {
+                color: "grey",
+                id: "ungrouped",
+                name: "ungrouped",
+              };
+
+              return (
+                <RuleCard
+                  rule={item}
+                  group={group}
+                  onToggle={() =>
+                    dispatch(toggleRuleActiveWithReapply(item.id))
+                  }
+                  onDelete={() => dispatch(deleteRule(item.id))}
+                  onEdit={() => handleEditRule(item)}
+                />
+              );
+            }}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.listContent}
+          />
+        )}
+      </View>
+
+      {/* floating action buttons */}
+      <TouchableOpacity
+        style={styles.fab}
+        onPress={() => setCreateModalVisible(true)}
+      >
+        <Feather name="plus" size={24} color="#fff" />
+      </TouchableOpacity>
+
+      {/* Modals */}
+      <CreateRuleModal
+        visible={createModalVisible}
+        onClose={handleCloseCreateModal}
+      />
+
+      <EditRuleModal
+        visible={editModalVisible}
+        rule={editingRule}
+        onClose={handleCloseEditModal}
+      />
+    </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f9fafb",
-    padding: 16,
+    backgroundColor: "#f8f9fa",
   },
-  header: {
-    fontSize: 20,
-    fontWeight: "700",
-    marginBottom: 16,
-  },
-  addButton: {
-    backgroundColor: "#111",
-    paddingVertical: 10,
+  appBar: {
+    backgroundColor: "#fff",
     paddingHorizontal: 16,
-    borderRadius: 8,
-    alignSelf: "flex-start",
-    marginBottom: 16,
+    paddingTop: 28,
+    paddingBottom: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: "#e5e5e5",
   },
-  addButtonText: {
-    color: "#fff",
-    fontWeight: "600",
+  searchBar: {
+    gap: 12,
   },
-  modalOverlay: {
+  searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#f5f5f5",
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+  },
+  searchIcon: {
+    marginRight: 8,
+  },
+  searchInput: {
     flex: 1,
+    fontSize: 16,
+    color: "#000",
+    paddingVertical: 4,
+  },
+  filterContainer: {
+    flexDirection: "row",
+    gap: 8,
+  },
+  filterChip: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+    backgroundColor: "#f0f0f0",
+  },
+  filterChipActive: {
+    backgroundColor: "#007AFF",
+  },
+  filterText: {
+    fontSize: 14,
+    fontWeight: "500",
+    color: "#666",
+  },
+  filterTextActive: {
+    color: "#fff",
+  },
+  content: {
+    flex: 1,
+    paddingHorizontal: 16,
+  },
+  listContent: {
+    paddingVertical: 16,
+  },
+  fab: {
+    position: "absolute",
+    bottom: 24,
+    right: 24,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: "#007AFF",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.3)",
-  },
-  modalContent: {
-    backgroundColor: "#fff",
-    padding: 20,
-    borderRadius: 12,
-    width: "85%",
-  },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: "600",
-    marginBottom: 12,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 8,
-    padding: 10,
-    marginBottom: 12,
-  },
-  modalActions: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    gap: 20,
-  },
-  cancel: {
-    color: "red",
-    fontWeight: "500",
-  },
-  create: {
-    color: "blue",
-    fontWeight: "600",
+    elevation: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
   },
 });
+
+export default AutomationRulesScreen;

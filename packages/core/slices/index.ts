@@ -1,3 +1,4 @@
+export * from "./banksSlice";
 export * from "./fileSlice";
 export * from "./groupsSlice";
 export * from "./rulesSlice";

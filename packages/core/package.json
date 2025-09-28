@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "main": "index.ts",
   "dependencies": {
-    "uuid": "^13.0.0"
+    "uuid": "^13.0.0",
+    "@reduxjs/toolkit": "^2.9.0"
   }
 }

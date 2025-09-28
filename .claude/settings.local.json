@@ -1,7 +1,17 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npx turbo lint:*)"
+      "Bash(npx turbo lint:*)",
+      "Bash(npx turbo check-types:*)",
+      "Bash(npx tsc:*)",
+      "Bash(dir \"C:\\Personal\\projects\\money-lens\\apps\\app\\app\\(tabs)\"\")",
+      "Bash(ls:*)",
+      "Bash(tail:*)",
+      "Bash(npm run lint)",
+      "Bash(npm install:*)",
+      "Bash(npm run lint:*)",
+      "Bash(npm start)",
+      "Bash(node -e \"console.log(require(''@tanstack/react-form''))\")"
     ],
     "deny": [],
     "ask": []
