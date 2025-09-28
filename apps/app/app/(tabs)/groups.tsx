@@ -1,166 +1,219 @@
+import React, { useState, useMemo } from "react";
 import GroupCard from "@/components/ui/GroupCard";
-import React, { useState } from "react";
+import {
+  CreateGroupModal,
+  EditGroupModal,
+  EmptyGroups,
+} from "@/components/groups";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import {
   FlatList,
-  Modal,
   StyleSheet,
-  Text,
   TextInput,
   TouchableOpacity,
   View,
+  SafeAreaView,
+  StatusBar,
 } from "react-native";
+import Feather from "@expo/vector-icons/Feather";
+import {
+  useAppDispatch,
+  useAppSelector,
+  deleteGroupWithCleanup,
+  IGroup,
+} from "@/store";
 
-interface Group {
-  id: string;
-  name: string;
-  color: string;
-  count: number;
-}
+const GroupsScreen = () => {
+  const dispatch = useAppDispatch();
+  const { groups } = useAppSelector((state) => ({
+    groups: state.groups.groups,
+    rules: state.rules.rules,
+  }));
 
-export default function GroupsScreen() {
-  const [groups, setGroups] = useState<Group[]>([
-    { id: "1", name: "Food & Dining", color: "red", count: 3 },
-    { id: "2", name: "Fuel", color: "blue", count: 2 },
-    { id: "3", name: "Shopping", color: "green", count: 2 },
-  ]);
+  const [createModalVisible, setCreateModalVisible] = useState(false);
+  const [editModalVisible, setEditModalVisible] = useState(false);
+  const [editingGroup, setEditingGroup] = useState<IGroup | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const [modalVisible, setModalVisible] = useState(false);
-  const [newGroupName, setNewGroupName] = useState("");
+  const filteredGroups = useMemo(() => {
+    let filtered = groups;
 
-  const addGroup = () => {
-    if (!newGroupName.trim()) return;
-    setGroups((prev) => [
-      ...prev,
-      {
-        id: Date.now().toString(),
-        name: newGroupName,
-        color: randomColor(),
-        count: 0,
-      },
-    ]);
-    setNewGroupName("");
-    setModalVisible(false);
+    if (searchQuery.trim()) {
+      filtered = filtered.filter((group) =>
+        group.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    return filtered;
+  }, [groups, searchQuery]);
+
+  const handleDeleteGroup = (id: string) => {
+    dispatch(deleteGroupWithCleanup(id));
   };
 
-  const deleteGroup = (id: string) => {
-    setGroups((prev) => prev.filter((g) => g.id !== id));
-  };
-
-  const randomColor = () => {
-    const colors = ["#FF6B6B", "#4dabf7", "#51cf66", "#f59f00", "#9b5de5"];
-    return colors[Math.floor(Math.random() * colors.length)];
+  const handleCloseEditModal = () => {
+    setEditModalVisible(false);
+    setEditingGroup(null);
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Expense Groups</Text>
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="dark-content" backgroundColor="#f9fafb" />
 
-      {/* Add Group Button */}
-      <TouchableOpacity
-        style={styles.addButton}
-        onPress={() => setModalVisible(true)}
-      >
-        <Text style={styles.addButtonText}>+ Add Group</Text>
-      </TouchableOpacity>
-
-      {/* Group List */}
-      <FlatList
-        data={groups}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <GroupCard
-            name={item.name}
-            count={item.count}
-            color={item.color}
-            onDelete={() => deleteGroup(item.id)}
-          />
-        )}
-      />
-
-      {/* Modal for Adding Group */}
-      <Modal visible={modalVisible} animationType="slide" transparent>
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>New Group</Text>
-            <TextInput
-              placeholder="Enter group name"
-              style={styles.input}
-              value={newGroupName}
-              onChangeText={setNewGroupName}
+      {/* App Bar */}
+      <View style={styles.appBar}>
+        {/* Search and Filter Bar */}
+        <View style={styles.searchBar}>
+          <View style={styles.searchContainer}>
+            <Feather
+              name="search"
+              size={20}
+              color="#666"
+              style={styles.searchIcon}
             />
-            <View style={styles.modalActions}>
-              <TouchableOpacity onPress={() => setModalVisible(false)}>
-                <Text style={styles.cancel}>Cancel</Text>
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Search groups..."
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+              placeholderTextColor="#999"
+            />
+            {searchQuery.length > 0 && (
+              <TouchableOpacity onPress={() => setSearchQuery("")}>
+                <Ionicons name="close-circle" size={20} color="#999" />
               </TouchableOpacity>
-              <TouchableOpacity onPress={addGroup}>
-                <Text style={styles.create}>Create</Text>
-              </TouchableOpacity>
-            </View>
+            )}
           </View>
         </View>
-      </Modal>
-    </View>
+      </View>
+
+      {/* Content */}
+      {filteredGroups.length === 0 ? (
+        <EmptyGroups
+          groups={groups}
+          onCreateGroup={() => setCreateModalVisible(true)}
+        />
+      ) : (
+        <FlatList
+          style={styles.flatListContainer}
+          data={filteredGroups}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <GroupCard
+              name={item.name}
+              color={item.color}
+              count={1}
+              onDelete={() => handleDeleteGroup(item.id)}
+            />
+          )}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.listContainer}
+        />
+      )}
+
+      {/* Floating Action Button */}
+      <TouchableOpacity
+        style={styles.fab}
+        onPress={() => setCreateModalVisible(true)}
+        activeOpacity={0.8}
+      >
+        <Feather name="plus" size={24} color="#fff" />
+      </TouchableOpacity>
+
+      {/* Modals */}
+      <CreateGroupModal
+        visible={createModalVisible}
+        onClose={() => setCreateModalVisible(false)}
+      />
+
+      <EditGroupModal
+        visible={editModalVisible}
+        group={editingGroup}
+        onClose={handleCloseEditModal}
+      />
+    </SafeAreaView>
   );
-}
+};
+
+export default GroupsScreen;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f9fafb",
-    padding: 16,
+  },
+  flatListContainer: {
+    paddingTop: 18,
+  },
+  appBar: {
+    backgroundColor: "#fff",
+    paddingHorizontal: 16,
+    paddingTop: 28,
+    paddingBottom: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: "#e5e5e5",
+  },
+  searchBar: {
+    gap: 12,
   },
   header: {
-    fontSize: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    backgroundColor: "#fff",
+    borderBottomWidth: 1,
+    borderBottomColor: "#f0f0f0",
+  },
+  headerTitle: {
+    fontSize: 28,
     fontWeight: "700",
-    marginBottom: 16,
+    color: "#000",
+    marginBottom: 4,
   },
-  addButton: {
-    backgroundColor: "#111",
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-    alignSelf: "flex-start",
-    marginBottom: 16,
+  headerSubtitle: {
+    fontSize: 16,
+    color: "#666",
   },
-  addButtonText: {
-    color: "#fff",
-    fontWeight: "600",
+  searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#f5f5f5",
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
   },
-  modalOverlay: {
+  searchIcon: {
+    marginRight: 8,
+  },
+  searchInput: {
     flex: 1,
+    fontSize: 16,
+    color: "#000",
+    paddingVertical: 4,
+  },
+  clearButton: {
+    padding: 4,
+  },
+  listContainer: {
+    paddingHorizontal: 20,
+    paddingBottom: 100,
+  },
+  fab: {
+    position: "absolute",
+    bottom: 30,
+    right: 20,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: "#007AFF",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.3)",
-  },
-  modalContent: {
-    backgroundColor: "#fff",
-    padding: 20,
-    borderRadius: 12,
-    width: "80%",
-  },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: "600",
-    marginBottom: 12,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 8,
-    padding: 10,
-    marginBottom: 16,
-  },
-  modalActions: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    gap: 20,
-  },
-  cancel: {
-    color: "red",
-    fontWeight: "500",
-  },
-  create: {
-    color: "blue",
-    fontWeight: "600",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
   },
 });
