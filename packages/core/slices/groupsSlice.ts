@@ -1,6 +1,6 @@
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { generateUUID, getRandomWarmColor } from "@money-lens/utils";
+import { getRandomWarmColor } from "@money-lens/utils";
 import { IAppStore } from "..";
 import {
   removeGroupFromAllTransactions,
@@ -74,10 +74,10 @@ export const groupSlice = createSlice({
   name: SLICE_KEYS.GROUPS,
   initialState,
   reducers: {
-    addGroup: (state, action: PayloadAction<IGroup["name"]>) => {
+    addGroup: (state, action: PayloadAction<Omit<IGroup, "color">>) => {
       state.groups.push({
-        id: generateUUID(),
-        name: action.payload,
+        id: action.payload.id,
+        name: action.payload.name,
         color: getRandomWarmColor(),
       });
     },

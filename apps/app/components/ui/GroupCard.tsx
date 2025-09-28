@@ -1,4 +1,4 @@
-import { Ionicons } from "@expo/vector-icons";
+import { Octicons } from "@expo/vector-icons";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
@@ -28,7 +28,7 @@ const GroupCard: React.FC<GroupCardProps> = ({
 
       {/* Delete Button */}
       <TouchableOpacity onPress={onDelete}>
-        <Ionicons name="trash-outline" size={20} color="red" />
+        <Octicons name="trash" size={20} color="#FF3B30" />
       </TouchableOpacity>
     </View>
   );

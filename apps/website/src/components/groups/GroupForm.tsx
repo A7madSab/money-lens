@@ -1,21 +1,18 @@
 import React, { useState } from "react";
-import { Box, TextField, Button, Typography, Card } from "@mui/material";
 import { Add } from "@mui/icons-material";
-import { useAppDispatch } from "@/store";
-import { addGroup } from "../../store";
 import { useForm } from "@tanstack/react-form";
+import { generateUUID } from "@money-lens/utils";
+import { Box, TextField, Button, Typography, Card } from "@mui/material";
+import { useAppDispatch, addGroup } from "@/store";
 
 export const GroupsForm = () => {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const dispatch = useAppDispatch();
 
   const form = useForm({
-    defaultValues: {
-      name: "",
-    },
+    defaultValues: { name: "" },
     onSubmit: async ({ value }) => {
-      dispatch(addGroup(value.name));
-      // Reset form and hide it after successful submission
+      dispatch(addGroup({ name: value.name, id: generateUUID() }));
       form.reset();
       setShowCreateForm(false);
     },

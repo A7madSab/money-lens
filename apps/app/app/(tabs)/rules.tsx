@@ -24,13 +24,15 @@ import EmptyRules from "@/components/rules/EmptyRules";
 
 const AutomationRulesScreen = () => {
   const dispatch = useAppDispatch();
-  const { rules, activeRules, inactiveRules, groups } = useAppSelector(
-    (state) => ({
-      rules: state.rules.rules,
-      activeRules: state.rules.rules.filter((rule) => rule.isActive),
-      inactiveRules: state.rules.rules.filter((rule) => !rule.isActive),
-      groups: state.groups.groups,
-    })
+  const rules = useAppSelector((state) => state.rules.rules);
+  const groups = useAppSelector((state) => state.groups.groups);
+  const activeRules = useMemo(
+    () => rules.filter((rule) => rule.isActive),
+    [rules]
+  );
+  const inactiveRules = useMemo(
+    () => rules.filter((rule) => !rule.isActive),
+    [rules]
   );
 
   const [createModalVisible, setCreateModalVisible] = useState(false);

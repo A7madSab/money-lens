@@ -25,10 +25,7 @@ import {
 
 const GroupsScreen = () => {
   const dispatch = useAppDispatch();
-  const { groups } = useAppSelector((state) => ({
-    groups: state.groups.groups,
-    rules: state.rules.rules,
-  }));
+  const groups = useAppSelector((state) => state.groups.groups);
 
   const [createModalVisible, setCreateModalVisible] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);
@@ -88,28 +85,30 @@ const GroupsScreen = () => {
       </View>
 
       {/* Content */}
-      {filteredGroups.length === 0 ? (
-        <EmptyGroups
-          groups={groups}
-          onCreateGroup={() => setCreateModalVisible(true)}
-        />
-      ) : (
-        <FlatList
-          style={styles.flatListContainer}
-          data={filteredGroups}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <GroupCard
-              name={item.name}
-              color={item.color}
-              count={1}
-              onDelete={() => handleDeleteGroup(item.id)}
-            />
-          )}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.listContainer}
-        />
-      )}
+      <View style={styles.content}>
+        {filteredGroups.length === 0 ? (
+          <EmptyGroups
+            groups={groups}
+            onCreateGroup={() => setCreateModalVisible(true)}
+          />
+        ) : (
+          <FlatList
+            style={styles.flatListContainer}
+            data={filteredGroups}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <GroupCard
+                name={item.name}
+                color={item.color}
+                count={1}
+                onDelete={() => handleDeleteGroup(item.id)}
+              />
+            )}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.listContainer}
+          />
+        )}
+      </View>
 
       {/* Floating Action Button */}
       <TouchableOpacity
@@ -141,6 +140,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f9fafb",
+  },
+  content: {
+    flex: 1,
+    paddingHorizontal: 0,
   },
   flatListContainer: {
     paddingTop: 18,
@@ -199,21 +202,18 @@ const styles = StyleSheet.create({
   },
   fab: {
     position: "absolute",
-    bottom: 30,
-    right: 20,
+    bottom: 24,
+    right: 24,
     width: 56,
     height: 56,
     borderRadius: 28,
     backgroundColor: "#007AFF",
     justifyContent: "center",
     alignItems: "center",
+    elevation: 8,
     shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
+    shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
-    elevation: 8,
   },
 });

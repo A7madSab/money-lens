@@ -9,10 +9,8 @@ import {
 } from "react-native";
 import { useForm } from "@tanstack/react-form";
 import Feather from "@expo/vector-icons/Feather";
-import {
-  useAppDispatch,
-  addGroup,
-} from "@/store";
+import { useAppDispatch, addGroup } from "@/store";
+import uuid from "react-native-uuid";
 
 interface CreateGroupModalProps {
   visible: boolean;
@@ -26,12 +24,10 @@ const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
   const dispatch = useAppDispatch();
 
   const form = useForm({
-    defaultValues: {
-      name: "",
-    },
+    defaultValues: { name: "" },
     onSubmit: async ({ value }) => {
       try {
-        dispatch(addGroup(value.name));
+        dispatch(addGroup({ id: uuid.v4(), name: value.name }));
         handleClose();
       } catch (error) {
         console.error("Error creating group:", error);
@@ -87,13 +83,6 @@ const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
               </View>
             )}
           </form.Field>
-
-          <View style={styles.infoContainer}>
-            <Feather name="info" size={16} color="#666" />
-            <Text style={styles.infoText}>
-              A random color will be automatically assigned to your group
-            </Text>
-          </View>
 
           {/* Actions */}
           <View style={styles.actions}>

@@ -1280,11 +1280,9 @@ import { useAppSelector } from "@/store";
 // const error = { message: "" };
 
 export default function ExpenseTrackerScreen() {
-  const [showBankModal, setShowBankModal] = useState(false);
-  const { hasBanksSelected, selectedBanks } = useAppSelector(({ banks }) => ({
-    hasBanksSelected: banks.selectedBanks.length > 0,
-    selectedBanks: banks.selectedBanks,
-  }));
+  const [, setShowBankModal] = useState(false);
+  const selectedBanks = useAppSelector((state) => state.banks.selectedBanks);
+  const hasBanksSelected = selectedBanks.length > 0;
 
   const [messages, loading, error] = useSms({
     delay: 5000,
