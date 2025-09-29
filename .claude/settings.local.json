@@ -11,7 +11,8 @@
       "Bash(npm install:*)",
       "Bash(npm run lint:*)",
       "Bash(npm start)",
-      "Bash(node -e \"console.log(require(''@tanstack/react-form''))\")"
+      "Bash(node -e \"console.log(require(''@tanstack/react-form''))\")",
+      "Bash(npx expo start:*)"
     ],
     "deny": [],
     "ask": []

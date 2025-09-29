@@ -1,21 +1,20 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { useSms } from "@/hooks/useSms";
 import CardInfo from "@/components/ui/CardInfo";
-// import { extractCardsFromMessages } from "@/utils";
 
 export default function CardsScreen() {
-  const [messages, , loading, error] = useSms({
-    delay: 30000, // Poll less frequently for cards view
-  });
+  // const [messages, , loading, error] = useSms({
+  //   delay: 30000, // Poll less frequently for cards view
+  // });
+
+  const messages = [],
+    loading = false,
+    error = "";
 
   console.log({ messages, loading, error });
 
   const cards = [];
-  // const cards = useMemo(() => {
-  //   if (!messages || messages.length === 0) return [];
-  //   return extractCardsFromMessages(messages);
-  // }, [messages]);
 
   if (loading) {
     return (

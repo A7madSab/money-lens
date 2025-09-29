@@ -80,4 +80,7 @@ const banksSlice = createSlice({
   },
 });
 
+export const { selectBank, deselectBank, toggleBank, setBanks, resetBanks } =
+  banksSlice.actions;
+
 export default banksSlice.reducer;
