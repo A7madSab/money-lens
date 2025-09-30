@@ -1,20 +1,12 @@
 import React from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { useSms } from "@/hooks/useSms";
 import CardInfo from "@/components/ui/CardInfo";
 
 export default function CardsScreen() {
-  // const [messages, , loading, error] = useSms({
-  //   delay: 30000, // Poll less frequently for cards view
-  // });
-
-  const messages = [],
-    loading = false,
-    error = "";
-
-  console.log({ messages, loading, error });
-
+  const loading = false;
+  const error = "";
   const cards = [];
+  const messages = [];
 
   if (loading) {
     return (
@@ -25,13 +17,13 @@ export default function CardsScreen() {
       </View>
     );
   }
-
+ 
   if (error) {
     return (
       <View style={styles.container}>
         <View style={styles.centerContent}>
           <Text style={styles.errorText}>Error loading SMS messages</Text>
-          <Text style={styles.errorDetail}>{error.message}</Text>
+          <Text style={styles.errorDetail}>{error}</Text>
         </View>
       </View>
     );

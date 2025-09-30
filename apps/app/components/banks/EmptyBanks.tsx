@@ -16,10 +16,7 @@ const EmptyBanks: FC<IProps> = ({ setShowBankModal }) => {
 
         <TouchableOpacity
           style={styles.configureBtn}
-          onPress={() => {
-            console.log("jhellplmsad");
-            setShowBankModal(true);
-          }}
+          onPress={() => setShowBankModal(true)}
         >
           <Text style={styles.configureBtnText}>Select Banks</Text>
         </TouchableOpacity>

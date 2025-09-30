@@ -174,12 +174,6 @@ export const applyRules = (
         .map((c) => c.trim()) // clean up spaces
         .filter(Boolean); // remove empty strings
 
-      console.log({
-        description: transaction.description,
-        conditions,
-        ruleName: rule.name,
-      });
-
       return (
         rule.isActive &&
         conditions.some((cond) =>

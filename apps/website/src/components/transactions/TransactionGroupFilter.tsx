@@ -39,8 +39,6 @@ export const GroupsFilter = ({
         onChange={(e) => handleFilterChange(e.target.value as string[])}
         label="Filter Groups"
         renderValue={(selected: string[]) => {
-          console.log({ selected });
-
           if (!selected || selected.length === 0) return "All Groups";
           return `${selected.length} selected`;
         }}

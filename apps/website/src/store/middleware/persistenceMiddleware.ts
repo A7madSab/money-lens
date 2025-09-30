@@ -32,9 +32,6 @@ export const createPersistenceMiddleware = (): Middleware => {
         const manager = storageManagers.get(sliceName);
 
         if (manager && state[sliceName]) {
-          console.log(
-            `Persisting slice: ${sliceName} for action: ${actionType}`
-          );
           manager.save(state[sliceName]);
         }
       }
