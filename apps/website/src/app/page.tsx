@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Tab, Tabs, Typography } from "@mui/material";
 import { UploadFilesTabs } from "@/components/UploadFilesTabs";
 import { TransactionTabs } from "@/components/transactions/TransactionTabs";
@@ -8,10 +8,13 @@ import { useAppSelector } from "../store";
 
 export default function CsvTransactionManager() {
   const [tab, setTab] = useState(0);
+  const [mounted, setMounted] = useState(false);
 
-  const { transactions } = useAppSelector((state) => ({
-    transactions: state.transactions.transactions,
-  }));
+  const transactions = useAppSelector((state) => state.transactions.transactions);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
@@ -30,8 +33,8 @@ export default function CsvTransactionManager() {
         <Tab value={0} label="Upload" />
         <Tab
           value={1}
-          disabled={transactions.length === 0}
-          label={`Transactions (${transactions.length})`}
+          disabled={!mounted || transactions.length === 0}
+          label={mounted ? `Transactions (${transactions.length})` : "Transactions"}
         />
         <Tab value={3} label="Analytics" />
       </Tabs>

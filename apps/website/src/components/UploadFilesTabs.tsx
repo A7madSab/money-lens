@@ -8,7 +8,6 @@ import {
   Chip,
   List,
   ListItem,
-  ListItemText,
   ListItemSecondaryAction,
   Alert,
   LinearProgress,
@@ -170,8 +169,8 @@ export const UploadFilesTabs = () => {
                 const stats = getFileStats(file.name);
                 return (
                   <React.Fragment key={file.name}>
-                    <ListItem sx={{ px: 0 }}>
-                      <Box sx={{ mr: 2 }}>
+                    <ListItem sx={{ px: 0, alignItems: "flex-start" }}>
+                      <Box sx={{ mr: 2, mt: 0.5 }}>
                         {file.status === "completed" && (
                           <CheckCircleIcon sx={{ color: "success.main" }} />
                         )}
@@ -183,53 +182,50 @@ export const UploadFilesTabs = () => {
                         )}
                       </Box>
 
-                      <ListItemText
-                        primary={
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: 1,
-                            }}
-                          >
-                            <Typography variant="body1" fontWeight={500}>
-                              {file.name}
-                            </Typography>
-                            <Chip
-                              label={file.status}
-                              size="small"
-                              color={
-                                file.status === "completed"
-                                  ? "success"
-                                  : file.status === "error"
-                                    ? "error"
-                                    : "primary"
-                              }
-                              variant="outlined"
-                            />
-                          </Box>
-                        }
-                        secondary={
-                          <Box>
-                            {file.status === "uploading" && (
-                              <LinearProgress
-                                variant="determinate"
-                                value={file.progress}
-                                sx={{ mt: 1, mb: 1 }}
-                              />
-                            )}
-                            {file.status === "completed" && stats.count > 0 && (
-                              <>
-                                {stats.count} transactions • Total:{" "}
-                                {formatCurrency(stats.totalAmount)}
-                              </>
-                            )}
-                            {file.status === "error" && (
-                              <>Failed to process file</>
-                            )}
-                          </Box>
-                        }
-                      />
+                      <Box sx={{ flex: 1, minWidth: 0 }}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1,
+                            mb: 0.5,
+                          }}
+                        >
+                          <Typography variant="body1" fontWeight={500}>
+                            {file.name}
+                          </Typography>
+                          <Chip
+                            label={file.status}
+                            size="small"
+                            color={
+                              file.status === "completed"
+                                ? "success"
+                                : file.status === "error"
+                                  ? "error"
+                                  : "primary"
+                            }
+                            variant="outlined"
+                          />
+                        </Box>
+                        {file.status === "completed" && stats.count > 0 && (
+                          <Typography variant="body2" color="text.secondary">
+                            {stats.count} transactions • Total:{" "}
+                            {formatCurrency(stats.totalAmount)}
+                          </Typography>
+                        )}
+                        {file.status === "error" && (
+                          <Typography variant="body2" color="text.secondary">
+                            Failed to process file
+                          </Typography>
+                        )}
+                        {file.status === "uploading" && (
+                          <LinearProgress
+                            variant="determinate"
+                            value={file.progress}
+                            sx={{ mt: 1 }}
+                          />
+                        )}
+                      </Box>
 
                       <ListItemSecondaryAction>
                         <IconButton

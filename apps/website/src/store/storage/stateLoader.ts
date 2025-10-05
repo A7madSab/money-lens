@@ -2,6 +2,11 @@ import { StorageManager } from "./StorageManager";
 import { storageConfig } from "./config";
 
 export const loadPersistedState = () => {
+  // Skip during SSR/build
+  if (typeof window === "undefined") {
+    return undefined;
+  }
+
   const persistedState: Record<string, unknown> = {};
 
   Object.entries(storageConfig).forEach(([sliceName, storageType]) => {
