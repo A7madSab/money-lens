@@ -12,7 +12,8 @@
       "Bash(npm run lint:*)",
       "Bash(npm start)",
       "Bash(node -e \"console.log(require(''@tanstack/react-form''))\")",
-      "Bash(npx expo start:*)"
+      "Bash(npx expo start:*)",
+      "Bash(dir /b \"C:\\Personal\\projects\\money-lens\\packages\\core\\slices\\smsSlice\")"
     ],
     "deny": [],
     "ask": []

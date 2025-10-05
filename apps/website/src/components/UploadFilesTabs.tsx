@@ -31,7 +31,7 @@ export const UploadFilesTabs = () => {
   const dispatch = useAppDispatch();
   const files = useAppSelector((state) => state.files);
   const transactions = useAppSelector(
-    (state) => state.transactions.transactions
+    (state) => state.transactions.transactions,
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -49,13 +49,13 @@ export const UploadFilesTabs = () => {
 
   const getFileStats = (fileName: string) => {
     const fileTransactions = transactions.filter(
-      (t) => t.fileName === fileName
+      (t) => t.fileName === fileName,
     );
     return {
       count: fileTransactions.length,
       totalAmount: fileTransactions.reduce(
         (sum, t) => sum + Math.abs(t.amountNumeric || 0),
-        0
+        0,
       ),
     };
   };

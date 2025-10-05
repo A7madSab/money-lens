@@ -4,4 +4,5 @@ export enum SLICE_KEYS {
   RULES = "rules",
   FILES = "files",
   BANKS = "banks",
+  SMS = "sms",
 }

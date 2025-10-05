@@ -10,7 +10,7 @@ export async function requestSmsPermission(): Promise<boolean> {
         buttonNeutral: "Ask Me Later",
         buttonNegative: "Cancel",
         buttonPositive: "OK",
-      }
+      },
     );
     return granted === PermissionsAndroid.RESULTS.GRANTED;
   } catch (err) {

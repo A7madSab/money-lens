@@ -13,7 +13,7 @@ export const createPersistenceMiddleware = (): Middleware => {
         key: `redux_${sliceName}`,
         version: 1,
         storageType,
-      })
+      }),
     );
   });
 

@@ -8,7 +8,7 @@ import HasBanks from "@/components/banks/HasBanks";
 export default function ExpenseTrackerScreen() {
   const [showBankModal, setShowBankModal] = useState(false);
   const { availableBanks, selectedBanks } = useAppSelector(
-    (state) => state.banks
+    (state) => state.banks,
   );
   const hasBanksSelected = selectedBanks.length > 0;
 

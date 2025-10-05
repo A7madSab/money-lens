@@ -83,12 +83,12 @@ export const groupSlice = createSlice({
     },
     deleteGroup: (state, action: PayloadAction<string>) => {
       state.groups = state.groups.filter(
-        (group) => group.id !== action.payload
+        (group) => group.id !== action.payload,
       );
     },
     updateGroup: (state, action: PayloadAction<IGroup>) => {
       const index = state.groups.findIndex(
-        (group) => group.id === action.payload.id
+        (group) => group.id === action.payload.id,
       );
       if (index !== -1) {
         state.groups[index] = action.payload;
@@ -119,7 +119,7 @@ export const deleteGroupWithCleanup = createAsyncThunk(
     dispatch(reapplyAllRules(activeRules));
 
     return groupId;
-  }
+  },
 );
 
 export const { addGroup, deleteGroup, setGroups, updateGroup } =

@@ -20,7 +20,7 @@ export const GroupsTab = () => {
   };
 
   const filteredGroups = groups.filter((group) =>
-    group.name.toLowerCase().includes(searchTerm.toLowerCase())
+    group.name.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   return (

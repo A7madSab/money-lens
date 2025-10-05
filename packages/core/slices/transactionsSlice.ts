@@ -35,10 +35,10 @@ export const transactionSlice = createSlice({
     },
     addGroupToTransaction: (
       state,
-      action: PayloadAction<{ transactionId: string; groupId: string }>
+      action: PayloadAction<{ transactionId: string; groupId: string }>,
     ) => {
       const transaction = state.transactions.find(
-        (t) => t.id === action.payload.transactionId
+        (t) => t.id === action.payload.transactionId,
       );
       if (
         transaction &&
@@ -49,23 +49,23 @@ export const transactionSlice = createSlice({
     },
     removeGroupFromTransaction: (
       state,
-      action: PayloadAction<{ transactionId: string; groupId: string }>
+      action: PayloadAction<{ transactionId: string; groupId: string }>,
     ) => {
       const transaction = state.transactions.find(
-        (t) => t.id === action.payload.transactionId
+        (t) => t.id === action.payload.transactionId,
       );
       if (transaction) {
         transaction.groupIds = transaction.groupIds.filter(
-          (id) => id !== action.payload.groupId
+          (id) => id !== action.payload.groupId,
         );
       }
     },
     setTransactionGroups: (
       state,
-      action: PayloadAction<{ transactionId: string; groupIds: string[] }>
+      action: PayloadAction<{ transactionId: string; groupIds: string[] }>,
     ) => {
       const transaction = state.transactions.find(
-        (t) => t.id === action.payload.transactionId
+        (t) => t.id === action.payload.transactionId,
       );
       if (transaction) {
         transaction.groupIds = action.payload.groupIds;
@@ -77,27 +77,27 @@ export const transactionSlice = createSlice({
         (transaction) => ({
           ...transaction,
           groupIds: [],
-        })
+        }),
       );
 
       // Apply all active rules to all transactions
       const updatedTransactions = applyRules(
         transactionsWithResetGroups,
-        action.payload
+        action.payload,
       );
       state.transactions = updatedTransactions;
     },
     removeTransactionsByFileName: (state, action: PayloadAction<string>) => {
       // Remove all transactions that match the given fileName
       state.transactions = state.transactions.filter(
-        (transaction) => transaction.fileName !== action.payload
+        (transaction) => transaction.fileName !== action.payload,
       );
     },
     removeGroupFromAllTransactions: (state, action: PayloadAction<string>) => {
       // Remove the specified groupId from all transactions
       state.transactions.forEach((transaction) => {
         transaction.groupIds = transaction.groupIds.filter(
-          (groupId) => groupId !== action.payload
+          (groupId) => groupId !== action.payload,
         );
       });
     },

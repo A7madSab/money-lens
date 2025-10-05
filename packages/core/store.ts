@@ -4,6 +4,7 @@ import filesSlice from "./slices/fileSlice";
 import transactionSlice from "./slices/transactionsSlice";
 import rulesSlice from "./slices/rulesSlice";
 import banksSlice from "./slices/banksSlice";
+import smsSlice from "./slices/smsSlice";
 import { SLICE_KEYS } from "./keys";
 
 export const rootReducer = combineReducers({
@@ -12,6 +13,7 @@ export const rootReducer = combineReducers({
   [SLICE_KEYS.TRANSACTIONS]: transactionSlice,
   [SLICE_KEYS.RULES]: rulesSlice,
   [SLICE_KEYS.BANKS]: banksSlice,
+  [SLICE_KEYS.SMS]: smsSlice,
 });
 
 // these are just to get the types for redux

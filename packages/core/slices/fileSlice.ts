@@ -46,7 +46,7 @@ export const filesSlice = createSlice({
         fileName: File["name"];
         progress: IFileUploadProgress["progress"];
         status: IFileUploadProgress["status"];
-      }>
+      }>,
     ) => {
       const { fileName, progress, status } = action.payload;
       const fileProgress = state.files.map((f) => {
@@ -111,7 +111,7 @@ export const processFiles = createAsyncThunk(
     for (const file of files) {
       try {
         const data = await Promise.resolve(
-          parseCSVWithRules(file, activeRules)
+          parseCSVWithRules(file, activeRules),
         );
 
         dispatch(
@@ -119,7 +119,7 @@ export const processFiles = createAsyncThunk(
             fileName: file.name,
             progress: 50,
             status: "uploading",
-          })
+          }),
         );
         allData.push(...data);
         dispatch(
@@ -127,17 +127,21 @@ export const processFiles = createAsyncThunk(
             fileName: file.name,
             progress: 100,
             status: "completed",
-          })
+          }),
         );
       } catch {
         dispatch(
-          setFileProgress({ fileName: file.name, progress: 0, status: "error" })
+          setFileProgress({
+            fileName: file.name,
+            progress: 0,
+            status: "error",
+          }),
         );
       }
     }
 
     dispatch(addTransactions(allData));
-  }
+  },
 );
 
 export const removeFileAndTransactions = createAsyncThunk(
@@ -148,7 +152,7 @@ export const removeFileAndTransactions = createAsyncThunk(
 
     // Remove all transactions associated with this file
     dispatch(removeTransactionsByFileName(fileName));
-  }
+  },
 );
 
 export default filesSlice.reducer;

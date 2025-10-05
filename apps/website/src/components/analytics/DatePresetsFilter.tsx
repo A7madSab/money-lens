@@ -27,7 +27,7 @@ const DatePresetsFilter: React.FC<IProps> = ({
         label: "Last 7 days",
         value: "last7days",
         startDate: formatDate(
-          new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000)
+          new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000),
         ),
         endDate: formatDate(today),
       },
@@ -35,7 +35,7 @@ const DatePresetsFilter: React.FC<IProps> = ({
         label: "Last 30 days",
         value: "last30days",
         startDate: formatDate(
-          new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000)
+          new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000),
         ),
         endDate: formatDate(today),
       },
@@ -43,7 +43,7 @@ const DatePresetsFilter: React.FC<IProps> = ({
         label: "This Month",
         value: "thisMonth",
         startDate: formatDate(
-          new Date(today.getFullYear(), today.getMonth(), 1)
+          new Date(today.getFullYear(), today.getMonth(), 1),
         ),
         endDate: formatDate(today),
       },
@@ -51,7 +51,7 @@ const DatePresetsFilter: React.FC<IProps> = ({
         label: "Last Month",
         value: "lastMonth",
         startDate: formatDate(
-          new Date(today.getFullYear(), today.getMonth() - 1, 1)
+          new Date(today.getFullYear(), today.getMonth() - 1, 1),
         ),
         endDate: formatDate(new Date(today.getFullYear(), today.getMonth(), 0)),
       },

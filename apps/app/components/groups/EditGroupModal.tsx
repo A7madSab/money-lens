@@ -9,12 +9,7 @@ import {
 } from "react-native";
 import { useForm } from "@tanstack/react-form";
 import Feather from "@expo/vector-icons/Feather";
-import {
-  useAppDispatch,
-  useAppSelector,
-  updateGroup,
-  IGroup,
-} from "@/store";
+import { useAppDispatch, useAppSelector, updateGroup, IGroup } from "@/store";
 
 interface EditGroupModalProps {
   visible: boolean;
@@ -120,10 +115,7 @@ const EditGroupModal: React.FC<EditGroupModalProps> = ({
             <View style={styles.colorPreview}>
               <Text style={styles.infoLabel}>Color:</Text>
               <View
-                style={[
-                  styles.colorChip,
-                  { backgroundColor: group.color },
-                ]}
+                style={[styles.colorChip, { backgroundColor: group.color }]}
               />
             </View>
 

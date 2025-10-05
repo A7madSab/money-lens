@@ -12,6 +12,8 @@ export interface IBank {
   arabicNames?: string[];
   /** Hex color code for UI theming and brand representation (e.g., "#1E40AF") */
   color: string;
+  /** Path to bank logo image */
+  logo?: string;
 }
 
 export interface BanksState {
@@ -27,6 +29,7 @@ const AVAILABLE_BANKS: IBank[] = [
     addresses: ["CIB", "19666"],
     arabicNames: ["بنك CIB"],
     color: "#1E40AF",
+    logo: "@/assets/images/cib.png",
   },
   {
     id: "BANK_ALAHLY",
@@ -34,13 +37,15 @@ const AVAILABLE_BANKS: IBank[] = [
     addresses: ["BanK-AlAhly", "AlAhly", "البنك الأهلي"],
     arabicNames: ["البنك الأهلي", "البنك الاهلي"],
     color: "#DC2626",
+    logo: "@/assets/images/nbe.png",
   },
   {
     id: "BANQUE_MISR",
     displayName: "Banque Misr",
-    addresses: ["Banque Misr", "BanqueMisr", "بنك مصر"],
+    addresses: ["Banque", "BanqueMisr", "بنك مصر"],
     arabicNames: ["بنك مصر"],
     color: "#059669",
+    logo: "@/assets/images/banuqe-masr.png",
   },
 ];
 

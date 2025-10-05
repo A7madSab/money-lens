@@ -63,7 +63,7 @@ export const AnalyticsTab = () => {
   // analytics data
   const spendingByGroup = calculateSpendingByGroup(
     filteredTransactions,
-    groups
+    groups,
   );
   const topCategories = getTopCategories(spendingByGroup, 5);
 
@@ -75,7 +75,7 @@ export const AnalyticsTab = () => {
 
   const { totalExpenses, avgTransactionAmount } = React.useMemo(
     () => calculateTransactionMetrics(transactions),
-    [transactions]
+    [transactions],
   );
 
   const cards = [

@@ -39,14 +39,14 @@ export const TransactionActions = ({
         removeGroupFromTransaction({
           transactionId: transaction.id,
           groupId,
-        })
+        }),
       );
     } else {
       dispatch(
         addGroupToTransaction({
           transactionId: transaction.id,
           groupId,
-        })
+        }),
       );
     }
     handleClose();

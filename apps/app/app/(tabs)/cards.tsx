@@ -1,11 +1,12 @@
 import React from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import CardInfo from "@/components/ui/CardInfo";
+import { ICardInfo } from "@/utils";
 
 export default function CardsScreen() {
   const loading = false;
   const error = "";
-  const cards = [];
+  const cards: ICardInfo[] = [];
   const messages = [];
 
   if (loading) {
@@ -17,7 +18,7 @@ export default function CardsScreen() {
       </View>
     );
   }
- 
+
   if (error) {
     return (
       <View style={styles.container}>

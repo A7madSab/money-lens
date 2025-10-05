@@ -129,7 +129,7 @@ export const rulesSlice = createSlice({
     },
     updateRule: (state, action: PayloadAction<IRule>) => {
       const index = state.rules.findIndex(
-        (rule) => rule.id === action.payload.id
+        (rule) => rule.id === action.payload.id,
       );
       if (index !== -1) {
         state.rules[index] = action.payload;
@@ -147,7 +147,7 @@ export const rulesSlice = createSlice({
     deleteRulesByGroupId: (state, action: PayloadAction<string>) => {
       // Remove all rules that are associated with the specified groupId
       state.rules = state.rules.filter(
-        (rule) => rule.groupId !== action.payload
+        (rule) => rule.groupId !== action.payload,
       );
     },
   },
@@ -169,7 +169,7 @@ export const addRuleWithReapply = createAsyncThunk(
     dispatch(reapplyAllRules(activeRules));
 
     return rulePayload;
-  }
+  },
 );
 
 // Async thunk to update rule and re-apply all rules
@@ -185,7 +185,7 @@ export const updateRuleWithReapply = createAsyncThunk(
     dispatch(reapplyAllRules(activeRules));
 
     return rule;
-  }
+  },
 );
 
 // Async thunk to toggle rule and re-apply all rules
@@ -201,7 +201,7 @@ export const toggleRuleActiveWithReapply = createAsyncThunk(
     dispatch(reapplyAllRules(activeRules));
 
     return ruleId;
-  }
+  },
 );
 
 export const {

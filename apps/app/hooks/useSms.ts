@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { getInboxMessages, IFilter, ISmsMessage } from "../utils/sms";
+import { getInboxMessages, IFilter, ISms } from "../utils/sms";
 
 interface IProps {
   delay?: number;
@@ -7,8 +7,8 @@ interface IProps {
 }
 
 export function useSms({ delay = 5000, filter = {} }: IProps = {}) {
-  const [messages, setMessages] = useState<ISmsMessage[]>([]);
-  const [latest, setLatest] = useState<ISmsMessage | null>(null);
+  const [messages, setMessages] = useState<ISms[]>([]);
+  const [latest, setLatest] = useState<ISms | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
 
@@ -27,7 +27,7 @@ export function useSms({ delay = 5000, filter = {} }: IProps = {}) {
       "useEffect triggered - delay:",
       delay,
       "filter:",
-      JSON.stringify(filter)
+      JSON.stringify(filter),
     );
     let polling: ReturnType<typeof setInterval>;
     let isCancelled = false;
@@ -47,7 +47,8 @@ export function useSms({ delay = 5000, filter = {} }: IProps = {}) {
         } else {
           // Check if we have new messages by comparing the last message ID
           const lastInboxMessageId = inbox[inbox.length - 1]._id;
-          const hasNewMessages = lastKnownMessageIdRef.current !== lastInboxMessageId;
+          const hasNewMessages =
+            lastKnownMessageIdRef.current !== lastInboxMessageId;
 
           if (hasNewMessages) {
             setMessages(inbox);

@@ -37,7 +37,7 @@ const GroupsScreen = () => {
 
     if (searchQuery.trim()) {
       filtered = filtered.filter((group) =>
-        group.name.toLowerCase().includes(searchQuery.toLowerCase())
+        group.name.toLowerCase().includes(searchQuery.toLowerCase()),
       );
     }
 

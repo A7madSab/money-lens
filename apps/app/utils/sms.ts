@@ -9,7 +9,7 @@ import { requestSmsPermission } from "./permissions";
  *
  * @see https://developer.android.com/reference/android/provider/Telephony.Sms.Inbox
  */
-export type ISmsMessage = {
+export type ISms = {
   /** Unique identifier for the SMS message in the Android SMS database */
   _id: number;
 
@@ -113,8 +113,8 @@ export interface IFilter {
 }
 
 export async function getInboxMessages(
-  filter: Partial<IFilter>
-): Promise<ISmsMessage[] | null> {
+  filter: Partial<IFilter>,
+): Promise<ISms[] | null> {
   const hasPermission = await requestSmsPermission();
   if (!hasPermission) return null;
 
@@ -123,9 +123,9 @@ export async function getInboxMessages(
       JSON.stringify(filter),
       (fail: string) => reject(new Error(fail)),
       (count: number, smsList: string) => {
-        const messages: ISmsMessage[] = JSON.parse(smsList);
+        const messages: ISms[] = JSON.parse(smsList);
         resolve(messages);
-      }
+      },
     );
   });
 }

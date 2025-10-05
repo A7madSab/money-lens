@@ -23,7 +23,7 @@ export const parseAndFormatDate = (rawDate: string): string => {
 };
 
 export const parseAmountWithCurrency = (
-  rawAmount: string
+  rawAmount: string,
 ): {
   amountNumeric: number;
   currency: string;
@@ -115,7 +115,7 @@ export const getTopCategories = (
     color: string;
     count: number;
   }>,
-  limit: number = 5
+  limit: number = 5,
 ): Array<{
   groupName: string;
   amount: number;
@@ -164,7 +164,7 @@ export const parseCSV = async (file: File): Promise<ITransaction[]> => {
 
 export const applyRules = (
   data: ITransaction[],
-  rules: IRule[]
+  rules: IRule[],
 ): ITransaction[] => {
   return data.map((transaction) => {
     const applicableRules = rules.filter((rule) => {
@@ -177,7 +177,7 @@ export const applyRules = (
       return (
         rule.isActive &&
         conditions.some((cond) =>
-          transaction.description?.toLowerCase().includes(cond)
+          transaction.description?.toLowerCase().includes(cond),
         )
       );
     });
@@ -198,14 +198,14 @@ export const applyRules = (
 
 export const parseCSVWithRules = async (
   file: File,
-  rules: IRule[]
+  rules: IRule[],
 ): Promise<ITransaction[]> => {
   const transactions = await parseCSV(file);
   return applyRules(transactions, rules);
 };
 
 export const calculateTotalSpending = (
-  transactions: ITransaction[]
+  transactions: ITransaction[],
 ): number => {
   return transactions.reduce((total, transaction) => {
     return total + Math.abs(transaction.amountNumeric || 0);
@@ -214,7 +214,7 @@ export const calculateTotalSpending = (
 
 export const calculateSpendingByGroup = (
   transactions: ITransaction[],
-  groups: IGroup[]
+  groups: IGroup[],
 ): Array<{
   groupName: string;
   amount: number;

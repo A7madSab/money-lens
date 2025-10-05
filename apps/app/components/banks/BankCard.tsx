@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 import { IBank } from "@money-lens/core";
 
@@ -8,6 +8,13 @@ interface IProps {
   isSelected: boolean;
   handleBankToggle: (bankId: string) => void;
 }
+
+// Import bank logos
+const BANK_LOGOS: Record<string, any> = {
+  CIB: require("@/assets/images/cib.png"),
+  BANK_ALAHLY: require("@/assets/images/nbe.png"),
+  BANQUE_MISR: require("@/assets/images/banuqe-masr.png"),
+};
 
 const BankCard: FC<IProps> = ({ bank, isSelected, handleBankToggle }) => {
   return (
@@ -21,6 +28,13 @@ const BankCard: FC<IProps> = ({ bank, isSelected, handleBankToggle }) => {
       onPress={() => handleBankToggle(bank.id)}
     >
       <View style={styles.bankContent}>
+        {/* Bank Logo */}
+        {BANK_LOGOS[bank.id] && (
+          <View style={styles.logoContainer}>
+            <Image source={BANK_LOGOS[bank.id]} style={styles.logo} />
+          </View>
+        )}
+
         <View style={styles.bankInfo}>
           <Text
             style={[styles.bankName, isSelected && styles.bankNameSelected]}
@@ -107,6 +121,20 @@ const styles = StyleSheet.create({
   checkboxSelected: {
     backgroundColor: "#3b82f6",
     borderColor: "#3b82f6",
+  },
+  logoContainer: {
+    width: 48,
+    height: 48,
+    borderRadius: 8,
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 12,
+    overflow: "hidden",
+  },
+  logo: {
+    width: 40,
+    height: 40,
+    resizeMode: "contain",
   },
 });
 

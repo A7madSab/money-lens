@@ -39,7 +39,7 @@ export const RulesForm = ({ editingRule, onCancelEdit }: RulesFormProps) => {
           updateRuleWithReapply({
             ...editingRule,
             ...value,
-          })
+          }),
         );
         onCancelEdit?.();
       } else {

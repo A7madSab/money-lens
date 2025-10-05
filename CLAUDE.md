@@ -36,10 +36,12 @@ The mobile app (`apps/app/`) has additional Expo-specific commands:
 This Turborepo contains two main applications and shared packages:
 
 **Applications:**
+
 - `apps/app/` - React Native Expo mobile app for SMS-based expense tracking
 - `apps/website/` - Next.js web application for CSV transaction analysis
 
 **Shared Packages:**
+
 - `packages/core/` - Shared Redux state management (slices, store, middleware)
 - `packages/utils/` - Shared utility functions and helpers
 - `packages/eslint-config/` - Shared ESLint configurations
@@ -50,12 +52,14 @@ This Turborepo contains two main applications and shared packages:
 React Native Expo app that automatically tracks expenses by reading SMS messages from banks and payment providers.
 
 **Key Features:**
+
 - SMS permission handling and message parsing
 - Automatic transaction categorization from SMS text
 - Tab-based navigation (Transactions, Groups, Rules)
 - File-based routing with Expo Router
 
 **SMS Processing Flow:**
+
 1. `useSms()` hook polls device SMS messages
 2. Transaction parsing extracts amounts, merchants, categories
 3. Categorization rules match patterns (Amazon → Shopping, etc.)
@@ -66,24 +70,28 @@ React Native Expo app that automatically tracks expenses by reading SMS messages
 Next.js 15 application for uploading and analyzing financial transaction data from CSV files.
 
 **Key Technologies:**
+
 - Redux Toolkit for state management with localStorage persistence
 - Material-UI for component library
 - Recharts for data visualization
 - React Dropzone for file uploads
 
 **Data Flow:**
+
 1. CSV file upload via drag-and-drop
 2. Transaction parsing with currency/amount extraction
 3. Manual or rule-based group assignment
 4. Analytics dashboards and visualizations
 
 **Redux State Structure:**
+
 - `filesSlice` - CSV file management and upload state
 - `transactionsSlice` - Parsed transaction data and operations
 - `groupsSlice` - Transaction categorization and grouping
 - `rulesSlice` - Automatic categorization rules and pattern matching
 
 **State Management Flow:**
+
 1. Redux store configured in `packages/core/store.ts` with combined reducers
 2. Persistence layer with localStorage for data retention
 3. Redux Toolkit with logger middleware for development debugging
@@ -91,16 +99,20 @@ Next.js 15 application for uploading and analyzing financial transaction data fr
 ## Shared Packages Architecture
 
 ### `packages/core/`
+
 Contains shared Redux state management logic used by the website:
+
 - Redux slices for files, transactions, groups, and rules
 - Store configuration with combined reducers
 - Middleware setup including logger for development
 - Type definitions for the global application state
 
 ### `packages/utils/`
+
 Shared utility functions and helpers that can be used across applications.
 
 ### `packages/eslint-config/` & `packages/typescript-config/`
+
 Shared configuration files that ensure consistent code style and TypeScript settings across all applications.
 
 ## Package Management

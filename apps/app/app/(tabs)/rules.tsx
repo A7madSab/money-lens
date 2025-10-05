@@ -28,11 +28,11 @@ const AutomationRulesScreen = () => {
   const groups = useAppSelector((state) => state.groups.groups);
   const activeRules = useMemo(
     () => rules.filter((rule) => rule.isActive),
-    [rules]
+    [rules],
   );
   const inactiveRules = useMemo(
     () => rules.filter((rule) => !rule.isActive),
-    [rules]
+    [rules],
   );
 
   const [createModalVisible, setCreateModalVisible] = useState(false);

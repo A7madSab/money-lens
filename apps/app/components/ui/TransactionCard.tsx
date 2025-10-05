@@ -43,14 +43,26 @@ const TransactionCard: React.FC<IProps> = ({
     if (description) {
       await Clipboard.setStringAsync(description);
       Alert.alert("Copied!", "SMS message copied to clipboard", [
-        { text: "OK", style: "default" }
+        { text: "OK", style: "default" },
       ]);
     }
   };
 
   // Dynamic colors based on transaction type
-  const amountColor = isDebit ? "#EF4444" : isCredit ? "#10B981" : isRefund ? "#8B5CF6" : "#6B7280";
-  const borderColor = isDebit ? "#FCA5A5" : isCredit ? "#86EFAC" : isRefund ? "#C4B5FD" : "#E5E7EB";
+  const amountColor = isDebit
+    ? "#EF4444"
+    : isCredit
+      ? "#10B981"
+      : isRefund
+        ? "#8B5CF6"
+        : "#6B7280";
+  const borderColor = isDebit
+    ? "#FCA5A5"
+    : isCredit
+      ? "#86EFAC"
+      : isRefund
+        ? "#C4B5FD"
+        : "#E5E7EB";
 
   return (
     <View style={[styles.card, { borderLeftColor: borderColor }]}>
@@ -120,7 +132,9 @@ const TransactionCard: React.FC<IProps> = ({
       {/* Expanded SMS Content */}
       {isExpanded && description && (
         <View style={styles.smsSection}>
-          <Text style={styles.smsLabel}>Original SMS Message (tap to copy):</Text>
+          <Text style={styles.smsLabel}>
+            Original SMS Message (tap to copy):
+          </Text>
           <TouchableOpacity style={styles.smsContent} onPress={handleCopySms}>
             <Text style={styles.smsText}>{description}</Text>
           </TouchableOpacity>

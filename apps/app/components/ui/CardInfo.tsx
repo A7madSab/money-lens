@@ -42,7 +42,7 @@ const CardInfo: React.FC<IProps> = ({ card }) => {
           <Text style={styles.statLabel}>Transactions</Text>
         </View>
 
-        <View style={styles.stat}>
+        {/* <View style={styles.stat}>
           <Text style={styles.statValue}>
             {card.currencies.size > 0
               ? Array.from(card.currencies).join(", ")
@@ -59,7 +59,7 @@ const CardInfo: React.FC<IProps> = ({ card }) => {
             })}
           </Text>
           <Text style={styles.statLabel}>Last Used</Text>
-        </View>
+        </View> */}
       </View>
 
       {/* Features */}
@@ -70,7 +70,7 @@ const CardInfo: React.FC<IProps> = ({ card }) => {
           </View>
         )}
 
-        {card.availableLimits.length > 0 && (
+        {/* {card.availableLimits.length > 0 && (
           <View style={styles.limitInfo}>
             <Text style={styles.limitLabel}>Limit:</Text>
             <Text style={styles.limitValue}>
@@ -82,7 +82,7 @@ const CardInfo: React.FC<IProps> = ({ card }) => {
               )}
             </Text>
           </View>
-        )}
+        )} */}
       </View>
     </View>
   );
