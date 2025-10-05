@@ -60,10 +60,14 @@ React Native Expo app that automatically tracks expenses by reading SMS messages
 
 **SMS Processing Flow:**
 
-1. `useSms()` hook polls device SMS messages
-2. Transaction parsing extracts amounts, merchants, categories
-3. Categorization rules match patterns (Amazon → Shopping, etc.)
-4. Display in `TransactionCard` components
+1. `useSms()` hook polls device SMS messages every 5 seconds (default)
+2. SMS messages parsed using Strategy Pattern with bank-specific parsers
+3. `SmsParserRegistry` delegates to appropriate bank parser (e.g., `CibParser`)
+4. Parsed transactions stored in Redux state via `smsSlice`
+5. Display in `TransactionCard` components
+
+**Adding New Banks:**
+To support a new bank, create a parser implementing `ISmsParser` interface in `packages/core/slices/smsSlice/utilities.ts` and register it with `smsParserRegistry`
 
 ### Website (`apps/website/`)
 
@@ -89,23 +93,27 @@ Next.js 15 application for uploading and analyzing financial transaction data fr
 - `transactionsSlice` - Parsed transaction data and operations
 - `groupsSlice` - Transaction categorization and grouping
 - `rulesSlice` - Automatic categorization rules and pattern matching
+- `banksSlice` - Bank configuration and selection
+- `smsSlice` - SMS message parsing and transaction extraction (mobile app only)
 
 **State Management Flow:**
 
-1. Redux store configured in `packages/core/store.ts` with combined reducers
-2. Persistence layer with localStorage for data retention
-3. Redux Toolkit with logger middleware for development debugging
+1. Core Redux configuration in `packages/core/store.ts` with combined reducers
+2. Website extends core with persistence middleware (`apps/website/src/store/`)
+3. localStorage persistence for website data retention
+4. Logger middleware enabled in development
 
 ## Shared Packages Architecture
 
 ### `packages/core/`
 
-Contains shared Redux state management logic used by the website:
+Contains shared Redux state management logic used by both applications:
 
-- Redux slices for files, transactions, groups, and rules
-- Store configuration with combined reducers
-- Middleware setup including logger for development
-- Type definitions for the global application state
+- Redux slices: `filesSlice`, `transactionsSlice`, `groupsSlice`, `rulesSlice`, `banksSlice`, `smsSlice`
+- Base store configuration with combined reducers
+- Type definitions for the global application state (`IAppStore`)
+- SMS parsing logic with Strategy Pattern (`smsSlice/utilities.ts`)
+- Logger middleware for development debugging
 
 ### `packages/utils/`
 
@@ -130,4 +138,12 @@ Both applications use `@/*` path aliases configured in their respective tsconfig
 
 - Mobile app designed primarily for Android (SMS access limitations on iOS)
 - Website works across all modern browsers
-- Mobile app requires Android permissions for SMS reading
+- Mobile app requires Android permissions for SMS reading (`READ_SMS`)
+- Mobile app uses file-based routing with tabs: `index` (Transactions), `cards` (Banks), `groups`, `rules`
+
+## State Sharing Between Apps
+
+- Both applications share Redux slices from `packages/core/`
+- Website adds localStorage persistence layer on top of core state
+- Mobile app uses Redux state without persistence (in-memory only)
+- Same transaction, group, and rule types used across platforms
