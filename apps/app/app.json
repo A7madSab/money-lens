@@ -1,5 +1,11 @@
 {
   "expo": {
+    "name": "MoneyLens",
+    "slug": "money-lens",
+    "version": "1.0.0",
+    "android": {
+      "package": "com.moneylens.app"
+    },
     "extra": {
       "eas": {
         "projectId": "64a6a51d-0ea6-44a5-961c-13e0b0e1e025"
