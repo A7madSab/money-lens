@@ -1,76 +1,8 @@
 {
   "expo": {
-    "name": "Money Lens",
-    "slug": "money-lens",
-    "version": "1.0.0",
-    "description": "Automatic expense tracking through SMS message analysis from banks and payment providers",
-    "keywords": ["expense", "tracking", "sms", "finance", "budget", "banking"],
-    "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "moneylens",
-    "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
-    "privacy": "public",
-    "platforms": ["ios", "android"],
-    "primaryColor": "#3b82f6",
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.moneylens.app",
-      "infoPlist": {
-        "NSContactsUsageDescription": "This app does not access contacts",
-        "NSCameraUsageDescription": "This app does not access camera"
-      }
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "edgeToEdgeEnabled": true,
-      "package": "com.moneylens.app",
-      "permissions": ["READ_SMS", "RECEIVE_SMS"],
-      "intentFilters": [
-        {
-          "action": "VIEW",
-          "category": ["DEFAULT", "BROWSABLE"],
-          "data": {
-            "scheme": "moneylens"
-          }
-        }
-      ]
-    },
-    "web": {
-      "bundler": "metro",
-      "output": "static",
-      "favicon": "./assets/images/favicon.png"
-    },
-    "plugins": [
-      "expo-router",
-      [
-        "expo-splash-screen",
-        {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
-        }
-      ],
-      [
-        "react-native-permissions",
-        {
-          "permissions": [
-            "android.permission.READ_SMS",
-            "android.permission.RECEIVE_SMS"
-          ]
-        }
-      ]
-    ],
-    "experiments": {
-      "typedRoutes": true
-    },
     "extra": {
       "eas": {
-        "projectId": "money-lens-app"
+        "projectId": "64a6a51d-0ea6-44a5-961c-13e0b0e1e025"
       }
     }
   }

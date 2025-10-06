@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -6,6 +6,8 @@ import {
   View,
   FlatList,
   ActivityIndicator,
+  TouchableOpacity,
+  Linking,
 } from "react-native";
 import {
   IBank,
@@ -15,6 +17,7 @@ import {
   stopPolling,
 } from "@/store";
 import MessageCard from "../messages/MessageCard";
+import { checkSmsPermission, requestSmsPermission } from "@/utils/permissions";
 
 interface IProps {
   selectedBanks: Array<IBank["id"]>;
@@ -24,8 +27,16 @@ const HasBanks: FC<IProps> = ({ selectedBanks }) => {
   const dispatch = useAppDispatch();
   const availableBanks = useAppSelector((state) => state.banks.availableBanks);
   const { messages, error, loading } = useAppSelector((state) => state.sms);
+  const [hasPermission, setHasPermission] = useState<boolean | null>(null);
 
   useEffect(() => {
+    // Check permissions first
+    checkSmsPermission().then(setHasPermission);
+  }, []);
+
+  useEffect(() => {
+    if (hasPermission === false) return; // Don't start polling without permission
+
     const bankAddresses = selectedBanks.flatMap((bankId) => {
       const bank = availableBanks.find((b) => b.id === bankId);
       return bank?.addresses || [];
@@ -43,9 +54,52 @@ const HasBanks: FC<IProps> = ({ selectedBanks }) => {
     return () => {
       dispatch(stopPolling());
     };
-  }, [selectedBanks, availableBanks, dispatch]);
+  }, [selectedBanks, availableBanks, dispatch, hasPermission]);
+
+  const handleRequestPermission = async () => {
+    const granted = await requestSmsPermission();
+    setHasPermission(granted);
+  };
+
+  const handleOpenSettings = () => {
+    Linking.openSettings();
+  };
 
   const renderMessages = () => {
+    if (hasPermission === null) {
+      return (
+        <View style={styles.centerContent}>
+          <ActivityIndicator size="large" color="#0284c7" />
+          <Text style={styles.loadingText}>Checking permissions...</Text>
+        </View>
+      );
+    }
+
+    if (hasPermission === false) {
+      return (
+        <View style={styles.permissionContainer}>
+          <Text style={styles.permissionIcon}>🔒</Text>
+          <Text style={styles.permissionTitle}>SMS Permission Required</Text>
+          <Text style={styles.permissionText}>
+            This app needs permission to read SMS messages to track your
+            transactions automatically.
+          </Text>
+          <TouchableOpacity
+            style={styles.permissionButton}
+            onPress={handleRequestPermission}
+          >
+            <Text style={styles.permissionButtonText}>Grant Permission</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.settingsButton}
+            onPress={handleOpenSettings}
+          >
+            <Text style={styles.settingsButtonText}>Open Settings</Text>
+          </TouchableOpacity>
+        </View>
+      );
+    }
+
     switch (true) {
       case !!error:
         return (
@@ -166,5 +220,60 @@ const styles = StyleSheet.create({
   },
   messagesList: {
     flex: 1,
+  },
+  permissionContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 24,
+    paddingVertical: 40,
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    margin: 16,
+  },
+  permissionIcon: {
+    fontSize: 64,
+    marginBottom: 16,
+  },
+  permissionTitle: {
+    fontSize: 20,
+    fontWeight: "700",
+    color: "#1f2937",
+    marginBottom: 12,
+    textAlign: "center",
+  },
+  permissionText: {
+    fontSize: 14,
+    color: "#6b7280",
+    textAlign: "center",
+    marginBottom: 24,
+    lineHeight: 20,
+  },
+  permissionButton: {
+    backgroundColor: "#0284c7",
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    borderRadius: 8,
+    marginBottom: 12,
+    width: "100%",
+    alignItems: "center",
+  },
+  permissionButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  settingsButton: {
+    backgroundColor: "#f3f4f6",
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    borderRadius: 8,
+    width: "100%",
+    alignItems: "center",
+  },
+  settingsButtonText: {
+    color: "#4b5563",
+    fontSize: 14,
+    fontWeight: "500",
   },
 });

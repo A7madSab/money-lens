@@ -1,5 +1,17 @@
 import { PermissionsAndroid } from "react-native";
 
+export async function checkSmsPermission(): Promise<boolean> {
+  try {
+    const granted = await PermissionsAndroid.check(
+      PermissionsAndroid.PERMISSIONS.READ_SMS
+    );
+    return granted;
+  } catch (err) {
+    console.warn("Permission check error:", err);
+    return false;
+  }
+}
+
 export async function requestSmsPermission(): Promise<boolean> {
   try {
     const granted = await PermissionsAndroid.request(
@@ -10,7 +22,7 @@ export async function requestSmsPermission(): Promise<boolean> {
         buttonNeutral: "Ask Me Later",
         buttonNegative: "Cancel",
         buttonPositive: "OK",
-      },
+      }
     );
     return granted === PermissionsAndroid.RESULTS.GRANTED;
   } catch (err) {
