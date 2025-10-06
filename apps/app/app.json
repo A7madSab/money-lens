@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "MoneyLens",
-    "slug": "money-lens",
+    "slug": "money-lens-app",
     "version": "1.0.0",
     "android": {
       "package": "com.moneylens.app"
